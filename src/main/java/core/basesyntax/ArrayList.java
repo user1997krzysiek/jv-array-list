@@ -1,6 +1,6 @@
 package core.basesyntax;
 import java.util.NoSuchElementException;
-
+import java.util.Objects;
 
 public class ArrayList<T> implements List<T> {
     private static final int INITIAL_CAPACITY = 10;
@@ -83,18 +83,15 @@ public class ArrayList<T> implements List<T> {
         return removed;
     }
 
-
     @Override
     public T remove(T element) {
         for (int i = 0; i < size; i++) {
-            if (element == null ? elements[i] == null : elements[i].equals(element)) {
+            if (Objects.equals(element, elements[i])) { // <-- Zmieniona linia
                 return remove(i);
             }
         }
         throw new NoSuchElementException("Element not found: " + element);
     }
-
-
 
     @Override
     public int size() {
