@@ -40,6 +40,7 @@ public class ArrayList<T> implements List<T> {
         if (minCapacity <= elements.length) {
             return;
         }
+
         int newCapacity = (int) (elements.length * 1.5);
         if (newCapacity < minCapacity) {
             newCapacity = minCapacity;
