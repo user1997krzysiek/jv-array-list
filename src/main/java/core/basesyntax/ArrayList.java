@@ -1,4 +1,6 @@
 package core.basesyntax;
+import java.util.NoSuchElementException;
+
 
 public class ArrayList<T> implements List<T> {
     private static final int INITIAL_CAPACITY = 10;
@@ -26,6 +28,7 @@ public class ArrayList<T> implements List<T> {
         elements[index] = value;
         size++;
     }
+
     private void rangeCheckForAdd(int index) {
         if (0 > index || index > size) {
             throw new ArrayListIndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -54,31 +57,44 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        if (0 > index || index >= size) {
-            throw new ArrayListIndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        checkIndexRange(index);
 
-        }
         return (T) elements[index];
     }
 
     @Override
     public void set(T value, int index) {
-        if (0 > index || index >= size) {
-            throw new ArrayListIndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-
-        }
+        checkIndexRange(index);
         elements[index] = value;
+    }
+
+    private void checkIndexRange(int index) {
+        if (index < 0 || index >= size) {
+            throw new ArrayListIndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
     }
 
     @Override
     public T remove(int index) {
-        return null;
+        checkIndexRange(index);
+        T removed = (T) elements[index];
+        System.arraycopy(elements, index + 1, elements, index, size - index - 1);
+        elements[--size] = null;
+        return removed;
     }
+
 
     @Override
     public T remove(T element) {
-        return null;
+        for (int i = 0; i < size; i++) {
+            if (element == null ? elements[i] == null : elements[i].equals(element)) {
+                return remove(i);
+            }
+        }
+        throw new NoSuchElementException("Element not found: " + element);
     }
+
+
 
     @Override
     public int size() {
