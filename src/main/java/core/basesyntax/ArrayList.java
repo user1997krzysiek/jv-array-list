@@ -25,6 +25,7 @@ public class ArrayList<T> implements List<T> {
         if (index < size) {
             System.arraycopy(elements, index, elements, index + 1, size - index);
         }
+
         elements[index] = value;
         size++;
     }
